@@ -26,11 +26,17 @@ const corsOpts = {
 app.use(cors(corsOpts));
 
 app.use(logger("dev"));
-
+const asyncMiddleware = (fn) => (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
 app.post(
   "/orders/confirmPayment",
   express.raw({ type: "application/json" }),
-  (request, response) => {
+  asyncMiddleware(async (request, response) => {
     const sig = request.headers["stripe-signature"];
     const endpointSecret = "whsec_ekG8UuUsAhWjGzHF00PakDuaQKUzajO5";
 
@@ -50,12 +56,13 @@ app.post(
         const checkoutSessionCompleted = event.data.object;
         console.log(checkoutSessionCompleted);
         const orderId = checkoutSessionCompleted.metadata.orderId;
-        console.log(orderId);
+        con;
         //update order status to completed
-        prisma.order.update({
+        const order = await prisma.order.update({
           where: { id: orderId },
           data: { status: "completed" },
         });
+        console.log(order);
 
         break;
       // ... handle other event types
@@ -65,8 +72,25 @@ app.post(
 
     // Return a 200 response to acknowledge receipt of the event
     response.send();
-  }
+  })
 );
+//test prisma update order by id
+app.get("/test", async (req, res) => {
+  const { orderId } = req.query;
+  //6579f1443e461b6a78a06956
+  console.log(orderId);
+
+  //print all orders
+  const orders = await prisma.order.findMany();
+  console.log(orders);
+
+  const order = await prisma.order.update({
+    where: { id: orderId },
+    data: { status: "completed" },
+  });
+
+  res.json(order);
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
