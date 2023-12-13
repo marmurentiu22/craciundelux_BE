@@ -209,8 +209,6 @@ router.post(
       amount = amount * 0.85;
     }
 
-    const totalPriceEmail = amount;
-
     //add 14.99 for shipping
     //if wrapped add 14.99
     var shippingPrice = 14.99;
@@ -219,6 +217,8 @@ router.post(
       shippingPrice = 29.98;
     }
     amount = amount + 14.99;
+
+    const totalPriceEmail = amount;
 
     const order = await prisma.order.create({
       data: {
