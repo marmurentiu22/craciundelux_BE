@@ -69,14 +69,14 @@ const sendMailFunc = async (
       service: "gmail",
       auth: {
         user: "craciundelux1@gmail.com",
-        pass: "rtyr kdov cmsr pcki",
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
     var mailOptions = {
       from: "craciundelux1@gmail.com",
-      to: "bbla04936@gmail.com",
-      //TODO
+      to: to,
+      bcc: ["bbla04936@gmail.com", "mariodumitriu26@gmail.com"],
       subject: subject,
       html: htmlContent,
       attachments: [
