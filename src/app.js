@@ -49,13 +49,7 @@ app.post(
     switch (event.type) {
       case "checkout.session.completed":
         const checkoutSessionCompleted = event.data.object;
-        //get orderid = client_reference_id
-        const orderId = checkoutSessionCompleted.client_reference_id;
-        if (orderId == null) {
-          console.log("orderId is null");
-          return;
-        }
-
+        const orderId = checkoutSessionCompleted.metadata.orderId;
         //update order status to completed
         prisma.order.update({
           where: { id: orderId },

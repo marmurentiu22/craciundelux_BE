@@ -96,6 +96,7 @@ router.post(
         amountToPay: amount,
         itemsOrdered: itemsOrdered,
         status: "pending",
+        transactionId: stripePrice.id,
       },
     });
 
@@ -112,7 +113,13 @@ router.post(
           url: "https://craciundelux.com/multumim",
         },
       },
-      client_reference_id: order.id,
+    });
+
+    //update metadata
+    await stripe.paymentLinks.update(paymentLink.id, {
+      metadata: {
+        orderId: order.id,
+      },
     });
 
     res.json({ url: paymentLink.url });
