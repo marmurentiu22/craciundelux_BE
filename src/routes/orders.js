@@ -251,7 +251,10 @@ router.post(
       cash,
       productsEmail,
       shippingPrice,
-      totalPriceEmail
+      totalPriceEmail,
+      name + " " + surname,
+      email,
+      phone
     );
 
     res.json({ message: "success" });

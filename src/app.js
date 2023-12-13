@@ -110,7 +110,10 @@ app.get("/test", async (req, res) => {
     order.cash,
     productsEmail,
     order.packaged ? 29.98 : 14.99,
-    order.amountToPay
+    order.amountToPay,
+    order.name + " " + order.surname,
+    order.email,
+    order.phone
   );
 
   res.json(order);

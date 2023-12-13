@@ -16,7 +16,10 @@ const sendMailFunc = async (
   cash,
   itemsOrdered,
   shippingPrice,
-  totalPrice
+  totalPrice,
+  name,
+  email,
+  phone
 ) => {
   try {
     var htmlContent = await readFileAsync(
@@ -30,6 +33,7 @@ const sendMailFunc = async (
     // |*|address|*| X
     // |*|payment_method|*| x
     // |*|total_price|*|x
+    //|*|client_name|*| |*|client_email|*| |*|client_phone|*|
     htmlContent = htmlContent.replace("|*|order_id|*|", orderId);
     htmlContent = htmlContent.replace(
       "|*|address|*|",
@@ -43,6 +47,9 @@ const sendMailFunc = async (
       "|*|shipping_price|*|",
       `${shippingPrice} RON`
     );
+    htmlContent = htmlContent.replace("|*|client_name|*|", name);
+    htmlContent = htmlContent.replace("|*|client_email|*|", email);
+    htmlContent = htmlContent.replace("|*|client_phone|*|", phone);
     htmlContent = htmlContent.replace("|*|total_price|*|", `${totalPrice} RON`);
 
     var productHtml = "";
