@@ -18,9 +18,7 @@ const app = express();
 
 const corsOpts = {
   origin: "*",
-
   methods: ["GET", "POST"],
-
   allowedHeaders: ["Content-Type"],
 };
 app.use(cors(corsOpts));
@@ -99,5 +97,6 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
+app.use("/assets", express.static(path.join(__dirname, "..", "assets")));
 
 module.exports = app;
