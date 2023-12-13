@@ -15,3 +15,32 @@ model TodoItem {
   title  String
   done   Boolean @default(false)
 }
+
+model Product{
+  uId String @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int
+  name      String
+  img_src   String
+  old_price Float
+  new_price Float
+  category  Int
+}
+
+model Order {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  surname        String
+  phone          String
+  email          String
+  county         String
+  city           String
+  address        String
+  postalCode     String
+  cash           Boolean
+  packaged       Boolean
+  itemsOrdered   Json[]
+  voucher        String?
+  amountToPay    Float
+  status         String
+  transactionId String?
+}
