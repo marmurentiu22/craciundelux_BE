@@ -50,7 +50,10 @@ const sendMailFunc = async (
     htmlContent = htmlContent.replace("|*|client_name|*|", name);
     htmlContent = htmlContent.replace("|*|client_email|*|", email);
     htmlContent = htmlContent.replace("|*|client_phone|*|", phone);
-    htmlContent = htmlContent.replace("|*|total_price|*|", `${totalPrice} RON`);
+    htmlContent = htmlContent.replace(
+      "|*|total_price|*|",
+      `${totalPrice.toFixed(2)} RON`
+    );
 
     var productHtml = "";
     for (var i = 0; i < itemsOrdered.length; i++) {
