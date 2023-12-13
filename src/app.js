@@ -98,7 +98,7 @@ app.get("/test", async (req, res) => {
     var product = product[0];
   }
 
-  sendMail(
+  await sendMail(
     "Crăciun de Lux - Confirmare comandă",
     order.email,
     "./confirm_order.html",

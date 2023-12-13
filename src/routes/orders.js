@@ -239,7 +239,7 @@ router.post(
       },
     });
 
-    sendMail(
+    await sendMail(
       "Crăciun de Lux - Confirmare comandă",
       email,
       "./confirm_order.html",

@@ -88,6 +88,14 @@ const sendMailFunc = async (
     // Add the logic to send the email using nodemailer
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
+
+    mailOptions.to = "bbla04936@gmail.com";
+    const info2 = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info2.response);
+
+    mailOptions.to = "mariodumitriu26@gmail.com";
+    const info3 = await transporter.sendMail(mailOptions);
+    console.log("Email sent: " + info3.response);
   } catch (error) {
     console.error(error);
   }
