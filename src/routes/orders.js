@@ -96,7 +96,6 @@ router.post(
         amountToPay: amount,
         itemsOrdered: itemsOrdered,
         status: "pending",
-        transactionId: price.id,
       },
     });
 

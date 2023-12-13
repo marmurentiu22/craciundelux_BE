@@ -42,5 +42,4 @@ model Order {
   voucher        String?
   amountToPay    Float
   status         String
-  transactionId String?
 }
