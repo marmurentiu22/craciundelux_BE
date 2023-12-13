@@ -87,6 +87,32 @@ app.get("/test", async (req, res) => {
     data: { status: "completed" },
   });
 
+  var productsEmail = order.itemsOrdered;
+  for (var i = 0; i < products.length; i++) {
+    console.log(products[i].id);
+    var product = await prisma.product.findMany({
+      where: { id: products[i].id },
+    });
+    productsEmail[i].name = product[0].name;
+    productsEmail[i].new_price = product[0].new_price;
+    var product = product[0];
+  }
+
+  sendMail(
+    "Crăciun de Lux - Confirmare comandă",
+    order.email,
+    "./confirm_order.html",
+    order.id,
+    order.county,
+    order.city,
+    order.address,
+    order.postalCode,
+    order.cash,
+    productsEmail,
+    order.packaged ? 29.98 : 14.99,
+    order.amountToPay
+  );
+
   res.json(order);
 });
 
@@ -97,6 +123,5 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
-app.use("/assets", express.static(path.join(__dirname, "..", "assets")));
 
 module.exports = app;

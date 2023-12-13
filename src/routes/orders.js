@@ -18,6 +18,42 @@ const asyncMiddleware = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
 };
 
+const itemstest = [
+  {
+    id: 1,
+    name: "Produs 1",
+    new_price: 100,
+    quantity: 2,
+  },
+  {
+    id: 2,
+    name: "Produs 2",
+    new_price: 200,
+    quantity: 1,
+  },
+];
+
+var totaltest = 0;
+for (var i = 0; i < itemstest.length; i++) {
+  totaltest = totaltest + itemstest[i].new_price * itemstest[i].quantity;
+}
+
+const sendMail = require("../mailer");
+// sendMail(
+//   "Crăciun de Lux - Confirmare comandă",
+//   "to",
+//   "./confirm_order.html",
+//   "orederid129381290",
+//   "county",
+//   "city",
+//   "address nr 2 bl 3 sc 4 ap 5",
+//   "postalCode",
+//   true,
+//   itemstest,
+//   29.98,
+//   totaltest + 29.98
+// );
+
 router.post(
   "/getPaymentLink",
   asyncMiddleware(async (req, res) => {
@@ -93,7 +129,7 @@ router.post(
         cash: cash,
         packaged: packaged,
         voucher: voucherCode,
-        amountToPay: amount,
+        amountToPay: amount / 100,
         itemsOrdered: itemsOrdered,
         status: "pending",
         transactionId: stripePrice.id,
@@ -156,12 +192,15 @@ router.post(
 
     //EXAMPLE ITEMSORDERED [{"id":397,"quantity":1}]
     const products = itemsOrdered;
+    var productsEmail = itemsOrdered;
     var amount = 0;
     for (var i = 0; i < products.length; i++) {
       console.log(products[i].id);
       var product = await prisma.product.findMany({
         where: { id: products[i].id },
       });
+      productsEmail[i].name = product[0].name;
+      productsEmail[i].new_price = product[0].new_price;
       var product = product[0];
       amount = amount + product.new_price * products[i].quantity;
     }
@@ -170,10 +209,14 @@ router.post(
       amount = amount * 0.85;
     }
 
+    const totalPriceEmail = amount;
+
     //add 14.99 for shipping
     //if wrapped add 14.99
+    var shippingPrice = 14.99;
     if (packaged) {
       amount = amount + 14.99;
+      shippingPrice = 29.98;
     }
     amount = amount + 14.99;
 
@@ -195,6 +238,21 @@ router.post(
         status: "completed",
       },
     });
+
+    sendMail(
+      "Crăciun de Lux - Confirmare comandă",
+      email,
+      "./confirm_order.html",
+      order.id,
+      county,
+      city,
+      address,
+      postalCode,
+      cash,
+      productsEmail,
+      shippingPrice,
+      totalPriceEmail
+    );
 
     res.json({ message: "success" });
   })
