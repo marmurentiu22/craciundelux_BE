@@ -32,8 +32,7 @@ app.post(
   express.raw({ type: "application/json" }),
   (request, response) => {
     const sig = request.headers["stripe-signature"];
-    const endpointSecret =
-      "whsec_b10a767f0be4cba4673406103a6f053447e7ad942b4cf8833ac8daa38defd6cd";
+    const endpointSecret = "whsec_ekG8UuUsAhWjGzHF00PakDuaQKUzajO5";
 
     let event;
 
