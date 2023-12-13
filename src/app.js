@@ -56,7 +56,7 @@ app.post(
         const checkoutSessionCompleted = event.data.object;
         console.log(checkoutSessionCompleted);
         const orderId = checkoutSessionCompleted.metadata.orderId;
-        con;
+        console.log(orderId);
         //update order status to completed
         const order = await prisma.order.update({
           where: { id: orderId },
