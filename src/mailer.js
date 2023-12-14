@@ -27,13 +27,6 @@ const sendMailFunc = async (
       "utf8"
     );
 
-    // |*|order_id|*| X
-    // |*|products|*|
-    // |*|shipping_price|*|x
-    // |*|address|*| X
-    // |*|payment_method|*| x
-    // |*|total_price|*|x
-    //|*|client_name|*| |*|client_email|*| |*|client_phone|*|
     htmlContent = htmlContent.replace("|*|order_id|*|", orderId);
     htmlContent = htmlContent.replace(
       "|*|address|*|",
