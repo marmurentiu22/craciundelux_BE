@@ -14,6 +14,8 @@ const prisma = new PrismaClient();
 const productsRouter = require("./routes/products");
 const ordersRouter = require("./routes/orders");
 
+const sendMail = require("./mailer");
+
 const app = express();
 
 const corsOpts = {
