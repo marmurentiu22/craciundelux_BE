@@ -240,7 +240,7 @@ router.post(
     });
 
     await sendMail(
-      "Crăciun de Lux - Confirmare comandă",
+      "Crăciun de Lux - Confirmare comandă #" + order.id,
       email,
       "./confirm_order.html",
       order.id,

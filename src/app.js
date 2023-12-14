@@ -76,7 +76,7 @@ app.post(
         }
 
         await sendMail(
-          "Crăciun de Lux - Confirmare comandă",
+          "Crăciun de Lux - Confirmare comandă #" + order.id,
           order.email,
           "./confirm_order.html",
           order.id,

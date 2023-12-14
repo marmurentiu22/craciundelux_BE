@@ -68,6 +68,9 @@ const sendMailFunc = async (
     }
     htmlContent = htmlContent.replace("|*|products|*|", productHtml);
 
+    //generate random number for reference
+    const reference = Math.floor(Math.random() * 1000000000);
+
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -86,19 +89,15 @@ const sendMailFunc = async (
         { filename: "logo.png", path: "./public/logo.png", cid: "logo" },
         { filename: "order.png", path: "./public/order.png", cid: "order" },
       ],
+      headers: {
+        "X-Entity-Ref-ID": reference,
+        References: reference,
+      },
     };
 
     // Add the logic to send the email using nodemailer
     const info = await transporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
-
-    mailOptions.to = "bbla04936@gmail.com";
-    const info2 = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info2.response);
-
-    mailOptions.to = "mariodumitriu26@gmail.com";
-    const info3 = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info3.response);
   } catch (error) {
     console.error(error);
   }
