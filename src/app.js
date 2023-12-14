@@ -61,6 +61,7 @@ app.post(
           data: { status: "completed" },
         });
 
+        const products = itemsOrdered;
         var productsEmail = order.itemsOrdered;
         for (var i = 0; i < products.length; i++) {
           console.log(products[i].id);
